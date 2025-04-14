@@ -5,6 +5,18 @@ pipeline {
         DOCKER_IMAGE = 'tanvi3105/python-docker-app'
     }
 
+    stage('Free Port 5010') {
+    steps {
+        sh '''
+        PID=$(lsof -ti :5010)
+        if [ ! -z "$PID" ]; then
+            echo "Killing process using port 5010"
+            kill -9 $PID
+        fi
+        '''
+    }
+}
+
     stages {
         stage('Checkout Code') {
             steps {
